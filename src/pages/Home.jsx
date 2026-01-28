@@ -22,7 +22,7 @@ function Home() {
 
   const { favorites, toggleFavorite } = useFavorites();
 
-  // ✅ STEP 1: Fetch ALL Pokémon names once (GLOBAL SEARCH)
+  //fetch all pokemon name
   useEffect(() => {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=1000")
       .then((res) => res.json())
@@ -30,7 +30,6 @@ function Home() {
       .catch(() => setAllPokemon([]));
   }, []);
 
-  // ✅ STEP 2: Fetch DETAILS for current page only
   useEffect(() => {
     if (allPokemon.length === 0) return;
 
@@ -68,14 +67,12 @@ function Home() {
       .finally(() => setLoading(false));
   }, [allPokemon, search, page, type]);
 
-  // 🔢 Total pages for pagination
   const totalFiltered = allPokemon.filter((p) =>
     p.name.includes(search.toLowerCase()),
   ).length;
 
   return (
     <div className="p-4">
-      {/* 🔍 Search + Filter */}
       <SearchBar
         search={search}
         setSearch={(val) => {
@@ -89,17 +86,14 @@ function Home() {
         }}
       />
 
-      {/* 🔄 Loading */}
       {loading && (
         <p className="text-center text-gray-500 mt-6">Loading Pokémon...</p>
       )}
 
-      {/* ❌ Empty state */}
       {!loading && pokemon.length === 0 && (
         <p className="text-center text-gray-500 mt-6">No Pokémon found</p>
       )}
 
-      {/* 🧩 Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {pokemon.map((p) => (
           <PokemonCard
@@ -112,12 +106,10 @@ function Home() {
         ))}
       </div>
 
-      {/* 📄 Pagination */}
       {totalFiltered > PAGE_SIZE && (
         <Pagination page={page} setPage={setPage} />
       )}
 
-      {/* 🔍 Detail Modal */}
       <PokemonDetail pokemon={selected} close={() => setSelected(null)} />
     </div>
   );
