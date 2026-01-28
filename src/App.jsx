@@ -6,7 +6,7 @@ import Favorites from "./pages/Favorites";
 
 function App() {
   return (
-    <BrowserRouter basename="POKEMON">
+    <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
